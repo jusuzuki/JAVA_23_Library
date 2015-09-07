@@ -1,0 +1,101 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Library</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/authors">Authors</a></li>
+        <li><a href="/books">Books</a></li>
+        <li class="active"><a href="/patrons">Patrons</a></li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search" action="/author_search">
+        <div class="form-group">
+          <input id="author_search" name="author_search" type="text" class="form-control" placeholder="Author Name">
+        </div>
+        <button type="submit" class="btn btn-default">Search by Author</button>
+      </form>
+      <form class="navbar-form navbar-left" role="search" action="/title_search">
+        <div class="form-group">
+          <input id="title_search" name="title_search" type="text" class="form-control" placeholder="Book Title">
+        </div>
+        <button type="submit" class="btn btn-default">Search by Title</button>
+      </form>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div >
+  <h2 class="well">$patron.getName()</h2>
+</div>
+
+<br>
+
+<h4>Current books</h4>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Checkout</th>
+      <th>Due Date</th>
+      <th>-</th>
+    </tr>
+  </thead>
+  <tbody>
+    #foreach($checkout in $patron.getCheckouts())
+      <tr>
+        <td>$checkout.getBookTitle()</td>
+        <td>
+          #foreach ($author in $checkout.getBookAuthors())
+          <option value="$author.getId()">$author.getName()
+          #end
+        </td>
+        <td>$checkout.getCheckoutDate()</td>
+        <td>$checkout.getDueDate()</td>
+        <td><a href="/patrons/$patron.getId()/return/$checkout.getId()" class="btn btn-success">Return</a></td>
+      </tr>
+    #end
+  </tbody>
+</table>
+
+<br>
+<hr/>
+<br>
+
+<h4>History</h4>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Checkout</th>
+      <th>Return Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    #foreach($checkout in $patron.getHistory())
+      <tr>
+        <td>$checkout.getBookTitle()</td>
+        <td>
+          #foreach ($author in $checkout.getBookAuthors())
+          <option value="$author.getId()">$author.getName()
+          #end
+        </td>
+        <td>$checkout.getCheckoutDate()</td>
+        <td>$checkout.getDueDate()</td>
+      </tr>
+    #end
+  </tbody>
+</table>
